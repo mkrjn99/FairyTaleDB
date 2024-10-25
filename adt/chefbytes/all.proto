@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package chefbytes;
+
+message Block {
+    int32 block_id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string buyer = 3;
+    string seller = 4;
+    Currency amount = 5; // as per current RBI regulation, this should only be INR for ChefBytes
+    string comments = 6;
+    Currency balance = 7;
+    int32 effect_on_balance = 8; // should be 1 or -1 only
+    repeated string signatories = 9;
+}
