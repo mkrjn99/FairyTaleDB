@@ -1,4 +1,4 @@
-Block ID,Date,Buyer,Seller,Amount (INR),Comments,ChefBytes's balance with Rasodu,1/-1,Signatories,Block Type
+Block ID,Date,Buyer,Seller,Amount (INR),Comments,,ChefBytes's balance with Rasodu,1/-1,Signatories,Block Type
 0,,,,,init,,0.00,,Mayank Rajani,INI
 1,22-Oct-24,ChefBytes,Jay Khatri,"5,000.00","Mayank and Jay agreed that for the next 45k INR ChefBytes team credits to Jay, ChefBytes will sell 50k INR worth of food. Tanuj agreed that he will be responsible for the 50k INR worth of sold food henceforth",,"5,000.00",1,Mayank Rajani && Jay Khatri && Tanuj Kumar,DIS
 2,22-Oct-24,Mayank Rajani,Jay Khatri,"15,000.00",UPI transaction,,"20,000.00",1,Mayank Rajani,MEX
