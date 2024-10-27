@@ -6,7 +6,7 @@ North Star: This gets adapted by one of the top 3 private sector banks in India,
 
 ## Motivation
 
-My experience working with the banking ecosystem of India is that people there either don't understand crypto very well, or even if they do, they see it as a speculative asset class, not something that has true economic value. FairyTaleDB aims to challenge both those assumptions, by offering all parties in the nation state banking world, starting from India, be it banks or central banks, to see the value of having a public owned blockchain, which is built with constitutional regulations built into it.
+My experience working with the banking ecosystem of India is that people there either don't understand virtual digital assets very well, or even if they do, they see it as a speculative asset class, not something that has true economic value. FairyTaleDB aims to challenge both those assumptions, by offering all parties in the nation state banking world, starting from India, be it banks or central banks, to see the value of having a public owned blockchain, which is built with constitutional regulations built into it.
 
 ## Future Vision
 
