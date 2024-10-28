@@ -11,3 +11,7 @@ My experience working with the banking ecosystem of India is that people there e
 ## Future Vision
 
 I aim for this to be a publicly hosted blockchain, with nodes doing "useful work" with whatever they are good at: storage, GPU compute or CPU compute, to start with. The wallet creation will be a frictionless process, but when one wants to withdraw money from that as a fiat currency, we follow the taxation norms of the specific country. We will stay cooperative with the respective govt after a wallet bearer willingly identifies their tax-residency, but not before that; which I believe is in the true spirit of any blockchain-based ledger.
+
+## Etymology
+
+I am tired of developers looking at logs, then looking at databases, both of which have structured data that only a select few in the company understand. What if a bug happened in production, and a product manager could say something like "Why did user X not get his refund yet? It was due on 27th Oct." and AI agents could select the correct blocks in this database and show them as is. The history of the system showing events as they happened, with timestamps will look like a fairy tale, isn't it :)
