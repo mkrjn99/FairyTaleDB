@@ -1,2 +1,9 @@
 BlockID,Date,Event description
 0,2-Nov-2024,FairyTaleDB was rolled up; pull git commit ID d54b8b0ca970c84fe20eb9099ea5150d8bb9baa8 for history
+1,2-Nov-2024,d54b8b0ca970c84fe20eb9099ea5150d8bb9baa8 was checked out
+2,2-Nov-2024,.git folder was removed
+3,2-Nov-2024,tar -czvf f1.tar.gz * was run
+4,2-Nov-2024,sha256 for f1.tar.gz was recorded as 15c3016fe45fa5da09e7dd1b61f4a1b37f50dda69dfec32cc4d9ab1b36c756f5
+5,2-Nov-2024,f1.tar.gz was accidentally deleted
+6,2-Nov-2024,repeated few steps above again and got a new f1.tar.gz
+7,2-Nov-2024,sha256 for f1.tar.gz was recorded as 65c93ca932cfa1f461fce6e826fc56f9f1795759bab04e5f96c7e428cecbe552
