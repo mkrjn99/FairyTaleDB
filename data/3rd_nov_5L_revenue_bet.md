@@ -8,9 +8,9 @@ Bet was posted as a poll by Mayank Rajani on the PDH internal Whatsapp channel a
 
 ## List of bettors
 
-Shriya Kapil
-Sanj B
-Priyanka Deshmukh
-Pooja Priyadarshini
-Madhav Krishna
-Aditya Abhinav
+Shriya Kapil\
+Sanj B\
+Priyanka Deshmukh\
+Pooja Priyadarshini\
+Madhav Krishna\
+Aditya Abhinav\
