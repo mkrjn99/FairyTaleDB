@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Blob API
+  description: API to retrieve blobs by ID
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /blob/{id}:
+    get:
+      summary: Retrieve a blob by its ID
+      description: |
+        Fetches a base64 encoded string of a blob if it exists in the database.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the blob
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blob retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blob:
+                    type: string
+                    format: byte
+                    description: Base64 encoded blob content
+                example:
+                  blob: "iVBORw0KGgoAAAANSUhEUgAA..."
+        "404":
+          description: Blob not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Sorry Mario! But our blob is in another FairyTaleDB castle"
