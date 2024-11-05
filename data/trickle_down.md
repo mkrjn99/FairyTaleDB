@@ -1,1 +1,0 @@
-To validate trickle-down economics, Mayank Rajani gave 1.5L LPs to top 6 people, and raised the burn target by 9L. Now it is the responsibility of the top 6 people to donate/loan that money such that they are not taxed on their wealth too much.
