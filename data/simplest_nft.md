@@ -26,7 +26,7 @@ Why GitHub? Because it is publicly hosted and it's free to submit files on it, t
 
 ## Citations
 
-Lol, I am an math & theoretical computer science guy enthusiast who learns by applying. I do not read research papers; I mostly just look up stuff online and build stuff on top of other stuff.
+Lol, I am an applied math & theoretical computer science enthusiast. I do not read research papers; I mostly just look up stuff online and build stuff on top of other stuff.
 
 Biggest acknowledgement for the last 1 year: ChatGPT. Before that: Google, Wikipedia, pretty much the entire internet. Special thanks to Vitalik Buterin and Prasanna Sankar whose words opened my eyes to see the crypto world for what it actually is: the world of "truth" and "proofs", something that is very lacking in the society I have been a part of since childhood.
 
