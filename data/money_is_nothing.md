@@ -16,5 +16,5 @@ On the way of building Project Dark Horse, I had various realisations, some for 
 
 Humans have value, dogs have value, pretty much anything that exists in nature has value. Money has no value, it is just a score that the universe has given you, corresponding to what it estimates you have achieved and what you can achieve in the future. If you believe you can achieve anything, you have infinite value; don't let money stop you.
 
-Author: Mayank Rajani
+Author: Mayank Rajani\
 https://linktr.ee/mkrjn99
