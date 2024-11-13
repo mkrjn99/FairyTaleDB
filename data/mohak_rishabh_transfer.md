@@ -1,1 +1,0 @@
-Mohak has transferred 25k LPs to Rishabh, in order for Rishabh to accept a lower monthly rate, the specifics of which have been discussed privately between Aditya Abhinav, Mayank, Mohak & Rishabh on Whatsapp. This has been reflected in the PDH loyalty points sheet.
