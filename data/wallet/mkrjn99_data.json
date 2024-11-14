@@ -1,0 +1,19 @@
+{
+  "wallet_id": "mkrjn99",
+  "identifiers": [
+    {
+      "type": "X",
+      "handle": "mkrjn99"
+    },
+    {
+      "type": "Linkedin",
+      "handle": "mkrjn99"
+    },
+    {
+      "type": "gmail",
+      "handle": "mkrjn99"
+    }
+  ],
+  "bdfl_for": ["PDH"],
+  "reserve_manager_for": ["PDH"]
+}
