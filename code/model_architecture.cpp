@@ -14,6 +14,13 @@ int NUM_TOTAL_LAYERS = 5;
 int MIN_NODES_IN_LAYER = 10;
 int VARIANCE_NODES_IN_LAYER = 5;
 
+int INPUT_VECTOR_SIZE = 10;
+
+int MIN_AHR = 128;
+int MAX_AHR = 524287; // 2^19-1
+
+int MAX_TRUST_SCORE = 524287;
+
 int generateNumThisLayerNodes(int numRemainingLayers) {
     if(numRemainingLayers==0) {
         return 0;
@@ -36,28 +43,27 @@ struct Layer {
 
 struct Node {
     unique_ptr<Layer> m_nextLayer;
-    vector<int> m_trustScores; // a value between 1 to 1e7, initially 1e4
+    vector<int> m_trustScores; // a value between 0 to 524287, initially 128
     vector<double> pw;
-    int ahr; // ahr starts at 1e4 and goes upto 2e8
+    int ahr; // ahr starts at 128 and goes upto 524287
     int pwsum; // pwsum is short for 'pledged wealth step up multiple'
+    int lastInferenceScore; // stored last inference score calculated by the infer() function
 
     Node(unique_ptr<Layer> &&m_nextLayer): m_nextLayer(std::move(m_nextLayer)) {
-        ahr = int(1e4);
-        if(m_nextLayer.get() == nullptr) {
-            return;
-        }
+        ahr = MIN_AHR;
+        int trustScoresSize = (m_nextLayer.get() == nullptr) ? INPUT_VECTOR_SIZE : m_nextLayer->m_nodes.size();
 
-        m_trustScores.resize(m_nextLayer->m_nodes.size(), random()%int(1e4));
-        pw.resize(m_trustScores.size());
+        m_trustScores.resize(trustScoresSize, random()%int(MAX_TRUST_SCORE/2));
+        pw.resize(trustScoresSize);
 
-        pwsum = int(m_trustScores.size()*1e4/2); // this is the expected value of the sum of trust scores
+        pwsum = int(trustScoresSize*MAX_AHR/4); // this is the expected value of the sum of trust scores
     }
 
     void adjust() {
-        // TODO: adjust ahr and pwsum such that 'loss function' is as close to 0 as possible
+        // adjust ahr and pwsum such that 'loss function' is as close to 0 as possible
         // ideally ahr should keep going up, and pwsum should keep going down with it
 
-        ahr+=int(ahr*0.1); // node gives itself a 10% hike in salary, LOL
+        ahr+=int(ahr*(11.0+random()%10)/100); // node gives itself a 10-20% random hike in salary, LOL
 
         if(m_nextLayer.get() == nullptr) {
             return;
@@ -92,6 +98,29 @@ struct Node {
 
         return (trustScoreTotal-pw_total);
     }
+
+    int infer(const vector<int> &input) { // this should return a confidence score between 0 to 2047
+        assert(input.size() == INPUT_VECTOR_SIZE);
+        int64_t weightedSum = 0;
+        int64_t totalTrustScore = 0;
+
+        for(int i=0;i<m_trustScores.size();++i) {
+            totalTrustScore += m_trustScores[i];
+            if(m_nextLayer.get() == nullptr) {
+                weightedSum += input[i]*m_trustScores[i];
+                continue;
+            }
+            weightedSum += m_nextLayer->infer(input)*m_trustScores[i];
+        }
+
+        int result = weightedSum/totalTrustScore;
+
+        lastInferenceScore = result;
+    }
+
+    void receiveFeedbackOnLastInference() {
+        // TODO: crucial step that adjusts trust scores for real
+    }
 };
 
 Layer::Layer(int numRemainingLayers) {
@@ -107,5 +136,6 @@ Layer::Layer(int numRemainingLayers) {
 }
 
 int main() {
+    srand(time(nullptr));
     Layer root(NUM_TOTAL_LAYERS);
 }
