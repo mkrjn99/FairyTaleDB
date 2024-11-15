@@ -1,6 +1,8 @@
 // As per https://github.com/mkrjn99/FairyTaleDB/blob/14653bf6353e823c4e6037a96f71c50f88d0df2e/data/agi_hypothesis.md
 #include <vector>
-#include <unique_ptr>
+#include <memory>
+#include <utility>
+#include <cassert>
 using namespace std;
 
 enum class NodeType {
@@ -22,6 +24,8 @@ int generateNumThisLayerNodes(int numRemainingLayers) {
     return MIN_NODES_IN_LAYER+int(random()%VARIANCE_NODES_IN_LAYER);
 }
 
+struct Node;
+
 struct Layer {
     unique_ptr<Layer> m_nextLayer;
     vector<Node> m_nodes;
@@ -37,12 +41,15 @@ struct Node {
     int ahr; // ahr starts at 1e4 and goes upto 2e8
     int pwsum; // pwsum is short for 'pledged wealth step up multiple'
 
-    Node(unique_ptr<Layer> m_nextLayer): m_nextLayer(m_nextLayer) {
-        assert(m_nextLayer.get() != nullptr);
-        m_trustScores.resize(m_nextLayer->m_nodes().size(), random()%int(1e4));
+    Node(unique_ptr<Layer> &&m_nextLayer): m_nextLayer(std::move(m_nextLayer)) {
+        ahr = int(1e4);
+        if(m_nextLayer.get() == nullptr) {
+            return;
+        }
+
+        m_trustScores.resize(m_nextLayer->m_nodes.size(), random()%int(1e4));
         pw.resize(m_trustScores.size());
 
-        ahr = int(1e4);
         pwsum = int(m_trustScores.size()*1e4/2); // this is the expected value of the sum of trust scores
     }
 
@@ -88,14 +95,14 @@ struct Node {
 };
 
 Layer::Layer(int numRemainingLayers) {
-    numThisLayerNodes = generateNumThisLayerNodes(numRemainingLayers);
+    int numThisLayerNodes = generateNumThisLayerNodes(numRemainingLayers);
     if(numThisLayerNodes == 0){
         return;
     }
-    m_nextLayer = make_unique(numRemainingLayers-1);
+    m_nextLayer = std::make_unique<Layer>(numRemainingLayers-1);
 
     for(int i=0;i<numThisLayerNodes;++i){
-        m_nodes.emplace_back(m_nextLayer);
+        m_nodes.emplace_back(std::move(m_nextLayer));
     }
 }
 
