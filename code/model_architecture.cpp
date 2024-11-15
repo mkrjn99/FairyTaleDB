@@ -66,8 +66,19 @@ struct Node {
     }
 
     double calculateLossFunction(){
-        // TODO: actually compute loss function
-        throw;
+        auto pwsu = double(ahr)*pwsum;
+        vector<double> pw(m_trustScores.size());
+        double pw_total = 0;
+        int trustScoreTotal = 0;
+        for(int i=0;i<m_trustScores.size();++i) {
+            trustScoreTotal += m_trustScores[i];
+            pw[i] = (m_trustScores[i]/pwsu)/100*m_trustScores[i];
+            pw_total += pw[i];
+        }
+        // we are currently not using the vector pw, just taking its sum,
+        // but I have 'faith' that it will be useful
+        
+        return (trustScoreTotal-pw_total);
     }
 };
 
