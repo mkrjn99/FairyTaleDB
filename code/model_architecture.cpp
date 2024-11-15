@@ -33,7 +33,7 @@ struct Layer {
 struct Node {
     unique_ptr<Layer> m_nextLayer;
     vector<int> m_trustScores; // a value between 1 to 1e7, initially 1e4
-    int ahr; // ahr starts at 1e4 and goes upto 2e9
+    int ahr; // ahr starts at 1e4 and goes upto 2e8
     int pwsum; // pwsum is short for 'pledged wealth step up multiple'
 
     Node(unique_ptr<Layer> m_nextLayer): m_nextLayer(m_nextLayer) {
@@ -48,11 +48,26 @@ struct Node {
         // TODO: adjust ahr and pwsum such that 'loss function' is as close to 0 as possible
         // ideally ahr should keep going up, and pwsum should keep going down with it
 
-        throw;
+        ahr+=int(ahr*0.1); // node gives itself a 10% hike in salary, LOL
+        
+        int lo = 1, hi = pwsum*2;
+
+        while(lo-hi>1) { // lower bound predicate search, who thinks competitive coding is BS?
+            pwsum = (lo+hi)/2;
+            double lf = calculateLossFunction();
+            
+            if(lf>0) {
+                hi = pwsum;
+            } else {
+                lo = pwsum;
+            }
+        }
+        pwsum = hi;
     }
 
     double calculateLossFunction(){
-
+        // TODO: actually compute loss function
+        throw;
     }
 };
 
