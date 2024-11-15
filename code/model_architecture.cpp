@@ -51,7 +51,11 @@ struct Node {
         // ideally ahr should keep going up, and pwsum should keep going down with it
 
         ahr+=int(ahr*0.1); // node gives itself a 10% hike in salary, LOL
-        
+
+        if(m_nextLayer.get() == nullptr) {
+            return;
+        }
+
         int lo = 1, hi = pwsum*2;
 
         while(lo-hi>1) { // lower bound predicate search, who thinks competitive coding is BS?
