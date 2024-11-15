@@ -1,2 +1,2 @@
-TransactionID,DebitWalletID,CreditWalledID,Amount
-0,Moriya037,mkrjn99,1000000
+TransactionID,Timestamp,NodeID,DebitWalletID,CreditWalledID,Amount
+0,1731649939,mkrjn99's Macbook M2,Moriya037,mkrjn99,1000000
