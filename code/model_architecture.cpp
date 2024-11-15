@@ -33,12 +33,14 @@ struct Layer {
 struct Node {
     unique_ptr<Layer> m_nextLayer;
     vector<int> m_trustScores; // a value between 1 to 1e7, initially 1e4
+    vector<double> pw;
     int ahr; // ahr starts at 1e4 and goes upto 2e8
     int pwsum; // pwsum is short for 'pledged wealth step up multiple'
 
     Node(unique_ptr<Layer> m_nextLayer): m_nextLayer(m_nextLayer) {
         assert(m_nextLayer.get() != nullptr);
         m_trustScores.resize(m_nextLayer->m_nodes().size(), random()%int(1e4));
+        pw.resize(m_trustScores.size());
 
         ahr = int(1e4);
         pwsum = int(m_trustScores.size()*1e4/2); // this is the expected value of the sum of trust scores
@@ -67,7 +69,6 @@ struct Node {
 
     double calculateLossFunction(){
         auto pwsu = double(ahr)*pwsum;
-        vector<double> pw(m_trustScores.size());
         double pw_total = 0;
         int trustScoreTotal = 0;
         for(int i=0;i<m_trustScores.size();++i) {
@@ -77,7 +78,7 @@ struct Node {
         }
         // we are currently not using the vector pw, just taking its sum,
         // but I have 'faith' that it will be useful
-        
+
         return (trustScoreTotal-pw_total);
     }
 };
