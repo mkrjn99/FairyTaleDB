@@ -1,4 +1,4 @@
-// As per https://github.com/mkrjn99/FairyTaleDB/blob/14653bf6353e823c4e6037a96f71c50f88d0df2e/data/agi_hypothesis.md
+// Loosely based on https://github.com/mkrjn99/FairyTaleDB/blob/14653bf6353e823c4e6037a96f71c50f88d0df2e/data/agi_hypothesis.md, decentralisation will be hard to implement, so just trying centralised first.
 #include <vector>
 #include <memory>
 #include <utility>
@@ -20,6 +20,11 @@ int MIN_AHR = 128;
 int MAX_AHR = 524287; // 2^19-1
 
 int MAX_TRUST_SCORE = 524287;
+
+int MAX_INPUT_VALUE = 2047;
+int MAX_CONFIDENCE_SCORE = 2047;
+
+vector<int> input;
 
 int generateNumThisLayerNodes(int numRemainingLayers) {
     if(numRemainingLayers==0) {
@@ -63,8 +68,6 @@ struct Node {
         // adjust ahr and pwsum such that 'loss function' is as close to 0 as possible
         // ideally ahr should keep going up, and pwsum should keep going down with it
 
-        ahr+=int(ahr*(11.0+random()%10)/100); // node gives itself a 10-20% random hike in salary, LOL
-
         if(m_nextLayer.get() == nullptr) {
             return;
         }
@@ -94,12 +97,12 @@ struct Node {
             pw_total += pw[i];
         }
         // we are currently not using the vector pw, just taking its sum,
-        // but I have 'faith' that it will be useful
+        // but I have 'faith' that it will be useful, somehow
 
         return (trustScoreTotal-pw_total);
     }
 
-    int infer(const vector<int> &input) { // this should return a confidence score between 0 to 2047
+    int infer() {
         assert(input.size() == INPUT_VECTOR_SIZE);
         int64_t weightedSum = 0;
         int64_t totalTrustScore = 0;
@@ -118,8 +121,11 @@ struct Node {
         lastInferenceScore = result;
     }
 
-    void receiveFeedbackOnLastInference() {
-        // TODO: crucial step that adjusts trust scores for real
+    void receiveFeedbackOnLastInference(int expectedInferenceScore) {
+        ahr+=int(ahr*(10.0+random()%11)/100); // node gives itself a 10-20% random hike in salary, LOL
+
+        double reductionPercent = abs(expectedInferenceScore-lastInferenceScore)/2047.0*100;
+        ahr-=(ahr*reductionPercent);
     }
 };
 
