@@ -1,0 +1,245 @@
+YAML File
+
+
+openapi: 3.0.0
+info:
+  title: FairyTaleDB Node API
+  description: API for interacting with FairyTaleDB nodes. Supports keyspace management, data storage, and confidence scoring.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /connect:
+    post:
+      summary: Connect to the node
+      description: Establishes a connection with the node using a requester ID and proof-of-identity.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requester_id:
+                  type: string
+                  description: Unique identifier of the requester.
+                proof_of_identity:
+                  type: string
+                  description: Cryptographic proof of the requester's identity.
+      responses:
+        '200':
+          description: Connection successful.
+        '401':
+          description: Authentication failed.
+  
+  /authorize:
+    post:
+      summary: Authorize connection using proof-of-authorization
+      description: Allows a node to vouch for another requester using a proof-of-authorization token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requester_id:
+                  type: string
+                  description: Unique identifier of the requester.
+                proof_of_authorization:
+                  type: string
+                  description: Authorization proof from a trusted node.
+      responses:
+        '200':
+          description: Authorization successful.
+        '401':
+          description: Authorization failed.
+
+  /reserve-keyspace:
+    post:
+      summary: Reserve keyspace
+      description: Allocates a portion of the node's storage space for the requester.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requester_id:
+                  type: string
+                  description: Unique identifier of the requester.
+                keyspace_size:
+                  type: integer
+                  description: Size of the keyspace to reserve, in bytes.
+      responses:
+        '200':
+          description: Keyspace reserved successfully.
+        '400':
+          description: Insufficient keyspace available.
+
+  /query-keyspace:
+    get:
+      summary: Query available keyspace
+      description: Checks the amount of storage available for a specific requester.
+      parameters:
+        - name: requester_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the requester.
+      responses:
+        '200':
+          description: Keyspace query successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available_keyspace:
+                    type: integer
+                    description: Amount of available keyspace, in bytes.
+        '404':
+          description: Requester not found.
+
+  /store-key:
+    post:
+      summary: Async store key-value pair (overwrite if present)
+      description: Stores a key-value pair. Overwrites the value if the key already exists.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The key to store.
+                value:
+                  type: string
+                  description: The value to associate with the key.
+      responses:
+        '200':
+          description: Key-value pair stored successfully.
+
+  /store-key-preserve:
+    post:
+      summary: Async store key-value pair (preserve original if present)
+      description: Stores a key-value pair only if the key does not already exist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The key to store.
+                value:
+                  type: string
+                  description: The value to associate with the key.
+      responses:
+        '200':
+          description: Key-value pair stored successfully.
+        '409':
+          description: Conflict – Key already exists.
+
+  /read-key-latest:
+    get:
+      summary: Retrieve latest value for a key
+      description: Fetches the most recent value associated with a given key.
+      parameters:
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The key to retrieve the value for.
+      responses:
+        '200':
+          description: Latest value retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    description: The latest value for the key.
+        '404':
+          description: Key not found.
+
+  /read-key-stale:
+    get:
+      summary: Retrieve possibly stale value for a key
+      description: Fetches an older version of the value for a given key.
+      parameters:
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The key to retrieve the value for.
+      responses:
+        '200':
+          description: Stale value retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    description: A stale version of the value for the key.
+        '404':
+          description: Key not found.
+
+  /archive:
+    post:
+      summary: Archive data
+      description: Archives the requester's data, moving it to archival storage.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requester_id:
+                  type: string
+                  description: Unique identifier of the requester.
+      responses:
+        '200':
+          description: Data archived successfully.
+
+  /confidence-score:
+    get:
+      summary: Query confidence score
+      description: Provides the requester's confidence score in the current node.
+      parameters:
+        - name: requester_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the requester.
+      responses:
+        '200':
+          description: Confidence score retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  confidence_score:
+                    type: number
+                    format: float
+                    description: The confidence score.
+        '404':
+          description: Requester not found.
+
+
