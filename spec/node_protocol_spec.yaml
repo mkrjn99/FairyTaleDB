@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 YAML File
 
 
+=======
+>>>>>>> fb54ef81102075e39e9851957154bd0b1bd315d3
 openapi: 3.0.0
 info:
   title: FairyTaleDB Node API
@@ -241,5 +244,8 @@ paths:
                     description: The confidence score.
         '404':
           description: Requester not found.
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> fb54ef81102075e39e9851957154bd0b1bd315d3
