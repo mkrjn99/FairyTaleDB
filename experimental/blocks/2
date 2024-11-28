@@ -1,0 +1,11 @@
+You might be wondering why I added the last statement in the file "1" when we already had the SHA512 of "0" in a separate file. I did it because it is one of the core concepts behind how a blockchain works.
+
+Try to imagine this: when your bank says "you have 250 INR in your account", and you say "arey, aise kaise! 450 hona chahiye, proof dikhao". The proof that bank will show you is your bank statement, in which each row has 3 primary pieces of data:
+
+1. Transaction description
+2. Amount credited/debited
+3. Balance after this transaction
+
+If you go remember that your balance was let's say 600 INR yesterday, you can find the transaction at which it was 600 INR yesterday and see how many transactions are there after that. Since you claim the balance to be supposed to be 450, but the balance is 250, it means that there are transactions in the statement you "disagree with". All that you need to do then is verify the transactions from the point you "agree with", ie, the 600 INR point and find one or more such disputed transactions.
+
+Btw, the content of the file "1.sha512" is: dd196ff2572e3e7d021fe308f3db1746f802e2c322a697d794d37311f1f314133da7cdc7c6ba483be00ca9d209e9e44ab58ed032786b9d9e9875b088de9f264b
