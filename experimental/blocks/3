@@ -1,0 +1,7 @@
+Continuing from our last conversation, when you find a "disputed transaction", your first step would most likely be informing the bank about it. If the transaction amount is infinitesimally small compared to the bank's total asset size, they might just credit you back that amount since it does not affect their liquidity ratios at all. But when it is big enough to affect their ratios, it is a "he said, she said" situation. You might have to get your legal team involved, suing them for "posting a wrongful transaction on their book". The bank then might have to do an internal audit of their data to see if some sort of tampering happened.
+
+Data tampering may not always be intentional. It could be a incompetence of the humans involved, a bug in the software, malfeasance or any combination of the 3 things. But when such an event happens, the bank must do an internal audit in order to either prove you wrong, or cancel the transaction in case they find it to be wrong on their part. In any case, the audit costs time, effort and money; all of which are critical resources for any corporation
+
+Generally speaking, when 2 entities are at odds with each other like this, both entities lose because of the resources spent on the large resource they are competing for. Could we find a way to make the process of finding the party at fault faster? Wouldn't that help the GDP of the entire world?
+
+Customary SHA512 of previous file: 4535ccf1de89bde2e18cd1763e219b04245ebb2b2126614c082a514fff052b1b4fb583df77c6f230678419821ce582550ff4dbb5ceb76941abbe0abcd2760117
