@@ -1,0 +1,9 @@
+I tend to get side-tracked a lot, LOL. 2nd block se 5th block tak aa gaye hum and we have still not been able to get to the point where we explain why we need to add the hash of the previous file at the end of every file we are creating.
+
+And it is because I intentionally cheated you and you did not even notice it!
+
+If you did, pat yourself on the back :) I intentionally tampered with the hash of file #2 to teach you a lesson. Dhokha nahi hoga jab tak life mein, tab tak seekhoge nahi sahi se.
+
+I have attached a new file in this commit with the name "2.sha512.recalculated". Iss bar pakka sahi hai! Vishwas nahi ho raha? Khud command run kar lo sha512 wala jo block #1 mein sikhaya tha.
+
+4.sha512: fe154e8be83ea14e428d3f81e9d2371fe5330a54a8bb60b6741729be1b1da52d59302a0332f8999554ccd3c4f64b518d8a2277dedc2ad72ba2d549180ff410ba
