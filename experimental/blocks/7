@@ -1,0 +1,9 @@
+Hello, and welcome to lesson #7. It is Friday 29th Nov, and me, the Founder of Project Dark Horse is still alive :)
+
+Kudos to you if you noticed that I did not add the hash of file #6. This is to show you how data could be lost in the world. I read a few days ago how some rich guy lost 1000s of crores worth of Bitcoin when her girlfriend threw away his hard drive.
+
+So the thing is... Bitcoin derives its wallet ID as a "pure mathematical function" of the private key. The likelihood of generating the same private key again is sooooo low, that people assume that it is lost forever (with the caveat of quantum computing becoming mainstream, but more on that later).
+
+I dropped file #6 from the chain to show you exactly how people delete history! There will be a bunch of good & bad stuff done by a lot of historical figures, but people tend to portray them the way they want, to suit their narrative. Take the example of Mahatma gandhi: India lauds him and has him on currency notes, while a bunch of people in Africa believe he was a racist. Similarly, look at the history of Germany under Hitler, US under Trump, China under Mao: everything is doled out in usual media as either extreme love or extreme hatred. Sadly, one of the worst things that came about with the advent of internet is mass thought manipulation, pulled off by folks with vested interests.
+
+SHA512 of file 5 is: cfd5a209c507a949406c687594232209e98d7afaf5ff5cb7b688635601ee6e55e21abd950d3356b06ef75ba741e09817bc276ed4be0e929f3d4f2012e5f6900a
