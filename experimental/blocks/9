@@ -1,0 +1,12 @@
+So now I will show you how one can create something called as a "cross-chain bridge":
+
+We already discussed in the last block how file #6 can be retrieved from the external data source, GitHub in this case. Now let's say that we have to provide file #6 data to the participants of the current chain, without them interacting with GitHub directly at all. What can we do?
+
+It's simple: we ask an "agent" to fetch the external data, on-demand. Now this agent could be a human being (may or may not be the participant of this chain), or it could be a computer node which has some indirect link with this chain. Isn't it?
+
+How hard is it to write a python program that fetches the data on this URL: https://github.com/mkrjn99/FairyTaleDB/blob/21567c9cb05e65c4f19015f9e95c8e0a91ec0e81/experimental/blocks/6
+
+Can I not just post that program on this chain within this block? I can, but I am lazy. Subah ke 7 baje hain, code likhne ka mann nahi hai. Bye!
+
+SHA512 of previous block is:
+19d7d7d6d2c9658fe12daf0bb7b4ea28561c50fbfa6629998fa7e3580b88bf9695d1cf7dfa3ef2fd89d6f42f63e4fcead6828c4b7236663904287a25aa660574
