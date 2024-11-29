@@ -1,0 +1,11 @@
+Notice how I deleted file #6 in the last commit. Why was I so comfortable doing so? Because Git is one of the best examples of how a blockchain works! Linus Torvalds, hats off!!
+
+Ever since I learned Git, as a programmer, I have had a habit of making small commits. Small commits help me rollback to the last point where I think "things were good" and continue from there. I wish real life was that simple! Actions cannot be undone in real life, surprise surprise!!
+
+So now if I have to pull file #6, I know that I can do it from Github because that is where I am pushing this repo after addition of every block. File #6 is currently present on this link: https://github.com/mkrjn99/FairyTaleDB/blob/21567c9cb05e65c4f19015f9e95c8e0a91ec0e81/experimental/blocks/6
+
+In the world of blockchains, referring to data external to a blockchain is common. Because blockchain is "slow by design" compared to centralised systems, it becomes necessary to store data outside where speed is important.
+
+But fun fact: we could create fast and slow blockchains as per need. A proof-of-work blockchain is pretty slow, while a proof-of-authority one can be pretty fast similar to a traditional DB.
+
+SHA512 of previous block is: 9d95d4fe9b509d5bdfe23ded4cecec32d8ba51d8946da46d8e66f34fdb27189a8140fef3cf95910e9fb77905e7727a22877577f820435a1f460cc03cdb07641d
