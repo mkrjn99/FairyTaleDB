@@ -1,11 +1,20 @@
-You might be wondering why I added the last statement in the file "1" when we already had the SHA512 of "0" in a separate file. I did it because it is one of the core concepts behind how a blockchain works.
+Notice the data in the folder open_positions. This time I have used an entirely different approach to compute the proof of trade.
 
-Try to imagine this: when your bank says "you have 250 INR in your account", and you say "arey, aise kaise! 450 hona chahiye, proof dikhao". The proof that bank will show you is your bank statement, in which each row has 3 primary pieces of data:
+I wrote the trades in a csv file and ran these commands on my Macbook M2:
 
-1. Transaction description
-2. Amount credited/debited
-3. Balance after this transaction
+sha512 more_trades.csv > more_trades.csv.sha512
+tail -c 9 more_trades.csv.sha512 > more_trades.csv.sha512.compressed
 
-If you go remember that your balance was let's say 600 INR yesterday, you can find the transaction at which it was 600 INR yesterday and see how many transactions are there after that. Since you claim the balance to be supposed to be 450, but the balance is 250, it means that there are transactions in the statement you "disagree with". All that you need to do then is verify the transactions from the point you "agree with", ie, the 600 INR point and find one or more such disputed transactions.
+But this again generated only an 8-hex digit trade ID, regardless of the size of the original file!
 
-Btw, the content of the file "1.sha512" is: dd196ff2572e3e7d021fe308f3db1746f802e2c322a697d794d37311f1f314133da7cdc7c6ba483be00ca9d209e9e44ab58ed032786b9d9e9875b088de9f264b
+Remember of when you do a banking transaction in India: when you enter your credit card PIN, doesn't the bank send you a simple 6-base10-digit OTP? This is the equivalent of that. I intend to optimistically write the OTP of the trade on the FairyTaleDB blockchain, and it becomes a wallet holder's responsibility to "claim" it as a trade made by them; otherwise we just cancel the trade in a further block.
+
+Now imagine this: you walk into a restaurant, you order food, you tap your card. The restaurant doesn't always debit your account immediately, right? You can have the food and then pay. What if some day you have food and you forget your wallet AND phone? You will have to find a way to induce "trust" that you will pay them back, isn't it?
+
+That's where we come in: you create an algorithm saying "I promise that I will pay Rasodu 250 INR tomorrow, and as a proof of this, I will send a mutually agreed 8-hex-digit number to Rasodu's Whatsapp number as soon as I reach home."
+
+You reach home, you write the "more_trades.csv" file, you run the commands as above, and you send the contents of more_trades.csv.sha512.compressed to Rasodu. That's it!
+
+When the chain has reached a few blocks later, Jay (Rasodu's owner) can himself claim that the INR amount issued by you using the proof of you saying the above agreement of algorithm happened, as well as the 8-digit ID.
+
+b7af6e99edf556a367295322ebc1866cf9dd76d3f5319711cb0e2e09959f77e303e72728fd8adb12dc759cf5866206675936789143fbdb7a4074ec34ed8a2296
