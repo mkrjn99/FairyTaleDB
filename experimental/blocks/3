@@ -1,7 +1,18 @@
-Continuing from our last conversation, when you find a "disputed transaction", your first step would most likely be informing the bank about it. If the transaction amount is infinitesimally small compared to the bank's total asset size, they might just credit you back that amount since it does not affect their liquidity ratios at all. But when it is big enough to affect their ratios, it is a "he said, she said" situation. You might have to get your legal team involved, suing them for "posting a wrongful transaction on their book". The bank then might have to do an internal audit of their data to see if some sort of tampering happened.
+No payment system in the world is free from bad actors. Let's look at some possibilities here:
 
-Data tampering may not always be intentional. It could be a incompetence of the humans involved, a bug in the software, malfeasance or any combination of the 3 things. But when such an event happens, the bank must do an internal audit in order to either prove you wrong, or cancel the transaction in case they find it to be wrong on their part. In any case, the audit costs time, effort and money; all of which are critical resources for any corporation
+1. You have the food but you do not send him the Whatsapp message later. Wouldn't Jay be disappointed? Well... it depends on if trusts the payment system to give him an eventual refund or not.
+2. Jay claims more of your trades in the future saying "ye toh meri shop se khareedta" rehta hai. This can be easily avoided by having nodes called as "miners".
 
-Generally speaking, when 2 entities are at odds with each other like this, both entities lose because of the resources spent on the large resource they are competing for. Could we find a way to make the process of finding the party at fault faster? Wouldn't that help the GDP of the entire world?
+In the blockchain world, mining refers to the act of doing some work in order to earn the native currency of the system. Let's define 1 unit of work on FairyTaleDB as this:
 
-Customary SHA512 of previous file: 4535ccf1de89bde2e18cd1763e219b04246ebb2b2126614c082a514fff052b1b4fb583df77c6f230698419821ce582550ff4dbb5ceb76941abbe0abcd2760117
+If a node participant with block-addition-authority requests any non-authorised node for finding an inverse of the SHA-512 function, that node earns 1 PDH loyalty point as a reward.
+
+In other words, if there is a file with string X, and f is the SHA-512 function, and Y = f(X); an authorised node that asks for X given string Y is bound to pay 1 PDH loyalty point as a reward to any finder of its choice.
+
+It is well-known in the computer science world that finding the inverse of SHA-512 is a computationally intractable problem. Although, dictionary attacks will always be possible.
+
+The point of designing the reward system this way is so that we can create blocks at any rate we want, adding as much data on it as we want by any authority, but balance computation for any wallet can be a lazy process lagging behind by a few blocks. The existence of more miners for this system ensures that balance computation becomes faster. So the problems of double-debit and negative balance, though not entirely eliminated, still stay very low probability, to the extent that the chain's wealthy folks can bailout someone if they go negative, without inflating the native token too much.
+
+In other words, we use the ideas of proof-of-work, proof-of-authority and proof-of-storage together; each node applying whichever they can at any point.
+
+e3a57900999bad30b5ec49930372a70c175f5bd78e3eb2bfb3a5b15c20515b1b99efec4ee56269a1697ebf37827d0c99c69dbbc8952c04a2382c21b00df83c41
