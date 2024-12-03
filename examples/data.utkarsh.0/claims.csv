@@ -1,3 +1,3 @@
-blockId,amount,dueFrom,authKey,minClaimTimestamp,maxClaimTimestamp,node_timeStamp
-0,100,mkrjn99,authKeyForUtkarshWorkingForMayank,1733034983,1767052800,1733034983
-1,25,shriya,authKeyForShriyaWalletCreation,1733034983,1767052800,1733034983
+blockId,idempotencyKey,amount,salt,dueFrom,authKey,node_timeStamp
+0,ik.utkarsh.c.0.0,100,sghnoihvoih,mkrjn99,mkrjn99GeneratedAuthKeyForUtkarshWorkingOnPdhChain,1733034983
+1,ik.utkarsh.c.0.1,25,vgiuemihl,shriya,utkarshGeneratedAuthKeyForShriyaWalletCreation,1733034983

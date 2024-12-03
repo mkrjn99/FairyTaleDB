@@ -1,3 +1,0 @@
-blockId,amount,salt,idempotencyKey,authKey,originTimestamp,maxClaimTimestamp,node_timeStamp
-0,50,igubsibgs,ikm123,authKeyForUtkarshWalletCreation,1733135160,1767052800,1733034783
-1,100,avghkavgk,ikm456,authKeyForUtkarshWorkingForMayank,1733136160,1767052800,1733034983

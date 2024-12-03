@@ -1,2 +1,2 @@
-blockId,amount,dueFrom,authKey,minClaimTimestamp,maxClaimTimestamp,node_timeStamp
-0,80,utkarsh,authKeyForUtkarshWalletCreation,1764547200,1767052800,1733040000
+blockId,idempotencyKey,amount,salt,dueFrom,authKey,node_timeStamp
+0,ik.mkrjn99.c.0.0,80,kvavkhkhk,utkarsh,utkarshGeneratedAuthKeyForHisWalletCreation,1733040000

@@ -1,0 +1,2 @@
+blockId,amount,salt,idempotencyKey,authKey,originTimestamp,maxClaimTimestamp,node_timeStamp
+0,20,vahvahuk,iku123,utkarshGeneratedAuthKeyForShriyaWalletCreation,1764547200,1767052800,1733040000
