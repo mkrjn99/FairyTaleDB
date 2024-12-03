@@ -1,2 +1,3 @@
-blockId,amount,donorWallet,authKey,minClaimTimestamp,maxClaimTimestamp,node_timeStamp
+blockId,amount,dueFrom,authKey,minClaimTimestamp,maxClaimTimestamp,node_timeStamp
 0,100,mkrjn99,authKeyForUtkarshWorkingForMayank,1733034983,1767052800,1733034983
+1,25,shriya,authKeyForShriyaWalletCreation,1733034983,1767052800,1733034983

@@ -1,2 +1,2 @@
-blockId,amount,donorWallet,authKey,minClaimTimestamp,maxClaimTimestamp,node_timeStamp
+blockId,amount,dueFrom,authKey,minClaimTimestamp,maxClaimTimestamp,node_timeStamp
 0,80,utkarsh,authKeyForUtkarshWalletCreation,1764547200,1767052800,1733040000
