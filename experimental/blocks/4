@@ -1,5 +1,21 @@
-Human beings are inherently untrustworthy people. Most people under pressure or greed would sacrifice their ethics in order to make a quick buck. If we were all "good people", these structures like parliaments, corporates, armies, judiciary would not need to exist.
+Hello all,
+It's 11th Dec 2024, the day I am going to get admitted to a hospital for a surgery. 
 
-But unfortunately they do, and that is the nature of the world. Lelouch in the show Code Geass says that competition is what breeds progress in the world. \(SPOILER ALERT: The solution of his brother Schneizel to have an entity that maintains fear of the entire world in order to "preserve the world order" is rejected by him.\) It is the same message that the book 1984 by George Orwell is trying to give out: thought policing is never good! Free speech and liberty always wins, in a long enough time horizon. If you haven't watched Code Geass, please do! It has been 11+ years of me having watched it but I am still in awe that Japan creates such insightful shows for their teenage audiences. I hope creative companies in India focused more on such aspects in children, in order to ignite critical thinking, but nahi... inko ad dikhake product bechne se fursat hi kahan hai. Scarcity mindset is so prevalent in India, I am tired of talking about it. Let alone creatives, even VC funds in India which have a LOT of capital don't have the balls to back bold visions like Project Dark Horse. Too scared, too wimpy, too micro-managey. Such a shame!
+Already implemented some part of my vision of Fairytale DB here: https://github.com/mkrjn99/FairyTaleDB_impl, along with a PDH teammate: Utkarsh Raj Srivastava. Still closed-source, I am too embarassed at the extremely bad code I am writing.
 
-Enough ranting, here's 3.sha512's contents: 73e266e23aea5d312433bf20b0e1f900a11bb1f2437b9188eaca977db1f7ceadb17492fc112459d1aec4e45e4e166ddf8609d716585ad7a0f2f734418b65f882
+You can have a look at the schema here: https://github.com/mkrjn99/FairyTaleDB/blob/main/data/data.mkrjn99.0.tar.gz
+
+The basic idea is this: the mkrjn99 wallet has 15M coins/tokens/whatever you wanna call them. The wallet has a parent called 'universe' which represents the wealth of the entire universe. The mkrjn99 wallet also owes 15M coins back to the universe.
+
+For wallets going forward, we can start them with any amount of coins in current, and put the same amount in dues. Although for simplicity, it might be the best idea to disallow inflating the tokens too much.
+
+In general, we can have the child wallet "preserve the history" of its parent wallet by having a SHA512 sum in its tar.gz. We can also have a binary representation of the wallet by this algorithm:
+
+universe:  0b000000
+mkrjn99:   0b100000 [1st child of the universe wallet]
+hsraktu17: 0b011111 [1st child of the mkrjn99 wallet]
+tanuj:     0b011110 [2nd child of the mkrjn99 wallet]
+
+This way the left-most child of a wallet can be found by doing a "minus x" in binary, where x is the smallest such number such that the newly created walletID does not conflict with any existing wallet ID. The right-sibling can be found by just doing a "minus 1". Inspiration: left-child-right-sibling paradigm that I read in the (in)famous algorithms book by Thomas Cormen.
+
+97686c1dc4a047d9930a06f4382ef91395fce3a91846dae69f3cbcea923ac548219da0bf58c61b1297d1d0bdf6043361466f891bbb63c4074bb11fefc7b65924
