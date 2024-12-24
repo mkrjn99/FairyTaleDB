@@ -1,6 +1,6 @@
-NTVH: Native hash\
-NTVHI: Native hash inverse\
-UNTARGZ: Untargz file at the top of the stack\
-FNAME: Put filename of the file at the top of the stack, as the latest\
-WRAP: Wrap file at the top of the stack using the function at the next value in the stack\
-SWAP: Swap the top two values of the stack
+NTVH: Take the native hash of the value on the top of the stack (V)\
+NTVHI: Take the native hash's inverse of the V\
+UNTARGZ: Untargz V\
+FNAME: Get the name of V\
+WRAP: Wrap file at V using the function at the next stack element (W)\
+SWAP: Swap V and W
