@@ -5,4 +5,6 @@ FNAME: Get the name of V\
 WRAP: Wrap file at V using the function at the next stack element (W)\
 SWAP: Swap V and W\
 CMP: Compare V and W\
-LOADV: Load V as the next instruction to run\
+LOADV: Load V as the next instruction to run and pop it\
+ADD: Adds V and W\
+POP: Pop from stack
