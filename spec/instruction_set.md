@@ -7,4 +7,5 @@ SWAP: Swap V and W\
 CMP: Compare V and W\
 POLL: Load V as the next instruction to run and pop it\
 ADD: Adds V and W\
-POP: Pop from stack
+POP: Pop from stack\
+STORE: Signal to the FairyTaleDB mainnet that V should be stored
