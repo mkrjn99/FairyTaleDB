@@ -12,8 +12,10 @@
     {
       "type": "gmail",
       "handle": "mkrjn99"
+    },
+    {
+      "type": "UPI",
+      "handle": "mkrjn99@okaxis"
     }
-  ],
-  "bdfl_for": ["PDH"],
-  "reserve_manager_for": ["PDH"]
+  ]
 }
