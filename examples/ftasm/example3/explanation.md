@@ -1,3 +1,11 @@
-The following command was run multiple times:
+First the following command was run:
+
+cp input.txt temp.txt
+
+Then the following command was run 32 times:
 
 sha512sum input.txt | cut -d' ' -f1 | tail -c 3 >> input.txt
+
+Finally this command was run:
+
+sha512sum temp.txt | cut -d' ' -f1 >> output.txt
