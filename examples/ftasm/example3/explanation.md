@@ -8,4 +8,4 @@ sha512sum temp.txt | cut -d' ' -f1 | tail -c 3 >> temp.txt
 
 Finally this command was run:
 
-sha512sum temp.txt | cut -d' ' -f1 >> output.txt
+sha512sum temp.txt | cut -d' ' -f1 > output.txt
