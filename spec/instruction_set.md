@@ -8,4 +8,5 @@ CMP: Compare V and W\
 POLL: Load V as the next instruction to run and pop it\
 ADD: Adds V and W\
 POP: Pop from stack\
-STORE: Signal to the FairyTaleDB mainnet that V should be stored
+STORE: Signal to the FairyTaleDB mainnet that V should be stored\
+COLLAPSE: Collapse the stack using an external verified data source (for now Bitcoin's latest block ID)
