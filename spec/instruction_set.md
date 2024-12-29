@@ -2,7 +2,7 @@ NTVH: Take the native hash of the value on the top of the stack (V)\
 NTVHI: Take the native hash's inverse of the V\
 UNTARGZ: Untargz V\
 FURI: Get the verified URI of the file with V as contents\
-WRAP: Wrap file at V using the function at the next stack element (W)\
+WRAP: Wrap data V using the function represented by the next stack element (W)\
 SWAP: Swap V and W\
 CMP: Compare V and W\
 POLL: Load V as the next instruction to run and pop it\
