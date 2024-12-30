@@ -1,0 +1,3 @@
+BTC is a chain that has proven its blocks to be quite hard to mine. Given that the BTC mining pool participants act in their own self-interest, ie, finding a block with a specified number of leading zeros; every hex digit in the hash after that is equally statistically likely. Hence, BTC's latest block can be used as a source of seed of a pseudo-random generator.
+
+There will always be an arbitrage between when the block is mined and when the next block of FairyTaleDB that depends on it takes effect, but we can currently let people take advantage of it, as that can help drive up the liquidity of the Project Dark Horse loyalty points on this chain in the long term.
