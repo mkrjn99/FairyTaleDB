@@ -18,16 +18,15 @@ contract PDHW {
     mapping(address => uint256) public balanceOf;
     
     // Address of the USDC token contract
-    address public usdcAddress;
+    address public usdcAddress = 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48;  // USDC contract address
 
     // Events
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Mint(address indexed to, uint256 value);
 
     // Constructor to set initial values
-    constructor(address _usdcAddress) {
+    constructor() {
         owner = msg.sender;
-        usdcAddress = _usdcAddress;
         totalSupply = 50 * 10**6 * 10**18; // 50M PDHW tokens with 18 decimals
         balanceOf[owner] = totalSupply;
     }
