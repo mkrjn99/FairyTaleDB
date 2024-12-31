@@ -17,6 +17,9 @@ contract PDHW {
     address public owner;
     mapping(address => uint256) public balanceOf;
     
+    // Array to hold the 7 discounted addresses
+    address[] public discountedAddresses;
+
     // Address of the USDC token contract
     address public usdcAddress = 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48;  // USDC contract address
 
@@ -29,14 +32,40 @@ contract PDHW {
         owner = msg.sender;
         totalSupply = 50 * 10**6 * 10**18; // 50M PDHW tokens with 18 decimals
         balanceOf[owner] = totalSupply;
+
+        // Add the 7 discounted addresses (hardcoded here for simplicity)
+        discountedAddresses = [
+            0xAddress1, // replace with actual address
+            0xAddress2, // replace with actual address
+            0xAddress3, // replace with actual address
+            0xAddress4, // replace with actual address
+            0xAddress5, // replace with actual address
+            0xAddress6, // replace with actual address
+            0xAddress7 // replace with actual address
+        ];
+    }
+
+    // Function to check if an address is in the discounted list
+    function isDiscountedAddress(address sender) internal view returns (bool) {
+        for (uint256 i = 0; i < discountedAddresses.length; i++) {
+            if (discountedAddresses[i] == sender) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Function to mint PDHW tokens and transfer them to the sender
     function mintPDHW(uint256 usdcAmount) external {
         require(usdcAmount > 0, "Amount must be greater than zero");
 
-        // Calculate the PDHW tokens to mint (10x the USDC amount)
-        uint256 pdhwAmount = usdcAmount * 10;
+        // Check if the sender is in the discounted list and calculate PDHW accordingly
+        uint256 pdhwAmount;
+        if (isDiscountedAddress(msg.sender)) {
+            pdhwAmount = usdcAmount * 11; // 11 PDHW per 1 USDC for discounted addresses
+        } else {
+            pdhwAmount = usdcAmount * 10; // 10 PDHW per 1 USDC for regular addresses
+        }
 
         // Ensure that the contract has enough PDHW tokens to mint
         require(balanceOf[owner] >= pdhwAmount, "Not enough PDHW tokens in the contract");
