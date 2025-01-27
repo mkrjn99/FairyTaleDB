@@ -1,1 +1,0 @@
-Tanuj has blind staked 50k LPs for the success of ChefBytes by the end of December 2024. Mayank has deducted this from his LPs and will give back whatever amount he wishes, depending on his perceived performance of the ChefBytes business.
