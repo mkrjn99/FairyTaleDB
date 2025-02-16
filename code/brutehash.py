@@ -1,4 +1,4 @@
-# Run python3 brute.py | tail -c 7
+# Run python3 brutehash.py | tail -c 7
 import hashlib
 
 def find_nonce(S):
