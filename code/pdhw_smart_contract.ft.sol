@@ -2,12 +2,16 @@
 pragma solidity ^0.8.0;
 
 contract PDHWToken {
+    bool public paused = false;
     string public name = "PDHWToken";
     string public symbol = "PDHW";
     uint8 public decimals = 6;
     uint256 public ltcr_inr = 8;
     uint256 public pending_payments_inr = 51 * 1e5;
     uint256 public transaction_fee = 1000000;
+    uint256 public ownership_transfer_price = 72 ether;
+    uint128 public num_negative_balance_addresses = 0;
+    int256 public negative_balance_limit = - 10000 * 1000000;
 
     address public owner;
     address public pending_payments_wallet_id;
@@ -15,9 +19,7 @@ contract PDHWToken {
     mapping(address => bool) public negative_balance_allowed;
     mapping(address => bool) public blacklisted;
     mapping(address => mapping(address => uint256)) public allowances;
-
-    uint256 public num_negative_balance_addresses = 0;
-    int256 public negative_balance_limit = - 10000 * 1000000;
+    mapping(address => uint256) public pendingWithdrawals;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -26,10 +28,16 @@ contract PDHWToken {
     event NegativeBalanceAllowed(address indexed wallet);
     event NegativeBalanceDisallowed(address indexed wallet);
     event WalletBlacklisted(address indexed wallet);
+    event TransferOwnership(address indexed from, address indexed to, uint256 value);
 
     bool public is_set_balance_allowed = true;
     bool public is_set_ltcr_inr_allowed = true;
     bool public is_negative_balance_allowance_allowed = true;
+
+    modifier onlyEOA() {
+        require(tx.origin == msg.sender, "Smart contracts cannot own this token");
+        _;
+    }
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function");
@@ -74,7 +82,8 @@ contract PDHWToken {
 
     function setLtcrInr(uint256 val) external onlyOwner isSetLtcrInrAllowed {
         ltcr_inr = val;
-        balances[pending_payments_wallet_id] = truncateUint256ToInt128(pending_payments_inr / ltcr_inr * decimals);
+        balances[pending_payments_wallet_id] = truncateUint256ToInt128((pending_payments_inr * decimals)/ ltcr_inr);
+        emit BalanceUpdated(pending_payments_wallet_id, balances[pending_payments_wallet_id]);
         emit LtcrInrUpdated(val);
     }
 
@@ -110,10 +119,13 @@ contract PDHWToken {
     }
 
     function transfer(address from, address to, uint256 amount) external onlyWallet(from) notBlacklisted(from) notBlacklisted(to) {
+        require(balances[from] - int256(amount + transaction_fee) >= negative_balance_limit, "Insufficient balance");
         balances[from] -= int256(amount + transaction_fee);
         balances[owner] += int256(transaction_fee);
-        require(balances[from] >= negative_balance_limit, "Insufficient balance or negative balance not allowed");
         balances[to] += int256(amount);
+        emit BalanceUpdated(from, balances[from]);
+        emit BalanceUpdated(owner, balances[owner]);
+        emit BalanceUpdated(to, balances[to]);
         emit Transfer(from, to, amount);
     }
 
@@ -127,6 +139,9 @@ contract PDHWToken {
         balances[recipient] += int256(amount);
         allowances[sender][msg.sender] -= amount;
 
+        emit BalanceUpdated(sender, balances[sender]);
+        emit BalanceUpdated(owner, balances[owner]);
+        emit BalanceUpdated(recipient, balances[recipient]);
         emit Transfer(sender, recipient, amount);
         return true;
     }
@@ -134,6 +149,7 @@ contract PDHWToken {
     function blacklistWalletId(address wallet_id)  external onlyOwner {
         balances[wallet_id] = 0;
         blacklisted[wallet_id] = true;
+        emit BalanceUpdated(wallet_id, 0);
         emit WalletBlacklisted(wallet_id);
     }
 
@@ -149,14 +165,53 @@ contract PDHWToken {
         is_negative_balance_allowance_allowed = false;
     }
 
-    function transferOwnership(address _owner) external onlyOwner {
-        owner = _owner;
-    }
-
     function burn() external onlyOwner {
         uint256 burnt_amount = uint256(balances[owner]) / (ltcr_inr * decimals);
-        require(burnt_amount < pending_payments_inr, "Burnt amount should always be less than current tokens");
+        require(burnt_amount <= pending_payments_inr, "Burnt amount should always be less than current tokens");
         pending_payments_inr -= burnt_amount;
         balances[owner] = 0;
+        emit BalanceUpdated(owner, 0);
+    }
+
+    function setOwnershipPrice(uint8 value) external onlyOwner {
+        ownership_transfer_price = value * 1 ether;
+    }
+
+    function buyOwnership() external onlyEOA payable {
+        require(msg.value == ownership_transfer_price, "Incorrect payment amount!");
+
+        address previousOwner = owner;
+        owner = msg.sender;
+
+        emit TransferOwnership(previousOwner, msg.sender, msg.value);
+
+        // Store the amount instead of sending it immediately
+        pendingWithdrawals[previousOwner] += msg.value;
+    }
+
+    function withdraw() external onlyEOA {
+        uint256 amount = pendingWithdrawals[msg.sender];
+        require(amount > 0, "No funds to withdraw");
+
+        pendingWithdrawals[msg.sender] = 0;
+        payable(msg.sender).transfer(amount);
+    }
+
+    function transferOwnership(address _owner) external onlyOwner {
+        owner = _owner;
+        emit TransferOwnership(_owner, msg.sender, 0);
+    }
+
+    modifier whenNotPaused() {
+        require(!paused, "Contract is paused");
+        _;
+    }
+
+    function pause() external onlyOwner {
+        paused = true;
+    }
+
+    function unpause() external onlyOwner {
+        paused = false;
     }
 }
