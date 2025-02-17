@@ -6,7 +6,7 @@ contract PDHWToken {
     string public symbol = "PDHW";
     uint8 public decimals = 6;
     uint256 public ltcr_inr = 8;
-    uint256 public pending_payments = 51 * 1e5;
+    uint256 public pending_payments_inr = 51 * 1e5;
     uint256 public transaction_fee = 1000000;
 
     address public owner;
@@ -23,6 +23,7 @@ contract PDHWToken {
     event LtcrInrUpdated(uint256 newValue);
     event BalanceUpdated(address indexed wallet, int256 newBalance);
     event NegativeBalanceAllowed(address indexed wallet);
+    event NegativeBalanceDisallowed(address indexed wallet);
 
     bool public is_set_balance_allowed = true;
     bool public is_set_ltcr_inr_allowed = true;
@@ -34,17 +35,17 @@ contract PDHWToken {
     }
 
     modifier isSetBalanceAllowed() {
-        require(is_set_balance_allowed);
+        require(is_set_balance_allowed, "Setting balance isn't allowed anymore");
         _;
     }
 
     modifier isSetLtcrInrAllowed() {
-        require(is_set_ltcr_inr_allowed);
+        require(is_set_ltcr_inr_allowed, "Setting LTCR INR isn't allowed anymore");
         _;
     }
 
     modifier isNegativeBalanceAllowanceAllowed() {
-        require(is_negative_balance_allowance_allowed);
+        require(is_negative_balance_allowance_allowed, "Allowing new negative balance wallets isn't allowed anymore");
         _;
     }
 
@@ -66,7 +67,7 @@ contract PDHWToken {
 
     function setLtcrInr(uint256 val) external onlyOwner isSetLtcrInrAllowed {
         ltcr_inr = val;
-        balances[pending_payments_wallet_id] = truncateUint256ToInt128(pending_payments / ltcr_inr * decimals);
+        balances[pending_payments_wallet_id] = truncateUint256ToInt128(pending_payments_inr / ltcr_inr * decimals);
         emit LtcrInrUpdated(val);
     }
 
@@ -82,17 +83,29 @@ contract PDHWToken {
             "Insufficient balance or negative balance not allowed"
         );
         balances[from] -= int256(amount + transaction_fee);
+        balances[owner] += int256(transaction_fee);
         require(balances[from] >= negative_balance_limit);
         balances[to] += int256(amount);
         emit Transfer(from, to, amount);
     }
 
     function allowNegativeBalance(address wallet_id) external onlyOwner isNegativeBalanceAllowanceAllowed {
-        if (!negative_balance_allowed[wallet_id]) {
-            ++num_negative_balance_addresses;
+        assert(wallet_id != owner);
+        if (negative_balance_allowed[wallet_id]) {
+            return;
         }
+        ++num_negative_balance_addresses;
         negative_balance_allowed[wallet_id] = true;
         emit NegativeBalanceAllowed(wallet_id);
+    }
+
+    function disallowNegativeBalance(address wallet_id) external onlyOwner  {
+        if (!negative_balance_allowed[wallet_id]) {
+            return;
+        }
+        --num_negative_balance_addresses;
+        negative_balance_allowed[wallet_id] = false;
+        emit NegativeBalanceDisallowed(wallet_id);
     }
 
     function approve(address spender, uint256 amount) external returns (bool) {
@@ -106,7 +119,8 @@ contract PDHWToken {
         require(int256(amount) <= balances[sender], "Insufficient balance");
         require(amount <= allowances[sender][msg.sender], "Allowance exceeded");
 
-        balances[sender] -= int256(amount);
+        balances[sender] -= int256(amount + transaction_fee);
+        balances[owner] += int256(transaction_fee);
         balances[recipient] += int256(amount);
         allowances[sender][msg.sender] -= amount;
 
@@ -124,5 +138,16 @@ contract PDHWToken {
 
     function renounceNegativeBalanceAllowanceRights() external onlyOwner {
         is_negative_balance_allowance_allowed = false;
+    }
+
+    function transferOwnership(address _owner) external onlyOwner {
+        owner = _owner;
+    }
+
+    function burn() external onlyOwner {
+        uint256 burnt_amount = uint256(balances[owner]) / ltcr_inr;
+        require(burnt_amount < pending_payments_inr, "Burnt amount should always be less than current tokens");
+        pending_payments_inr -= burnt_amount;
+        balances[owner] = 0;
     }
 }
