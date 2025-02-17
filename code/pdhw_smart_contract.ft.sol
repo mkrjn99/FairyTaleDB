@@ -13,6 +13,7 @@ contract PDHWToken {
     address public pending_payments_wallet_id;
     mapping(address => int256) public balances;
     mapping(address => bool) public negative_balance_allowed;
+    mapping(address => bool) public blacklisted;
     mapping(address => mapping(address => uint256)) public allowances;
 
     uint256 public num_negative_balance_addresses = 0;
@@ -24,6 +25,7 @@ contract PDHWToken {
     event BalanceUpdated(address indexed wallet, int256 newBalance);
     event NegativeBalanceAllowed(address indexed wallet);
     event NegativeBalanceDisallowed(address indexed wallet);
+    event WalletBlacklisted(address indexed wallet);
 
     bool public is_set_balance_allowed = true;
     bool public is_set_ltcr_inr_allowed = true;
@@ -54,6 +56,11 @@ contract PDHWToken {
         _;
     }
 
+    modifier notBlacklisted(address wallet) {
+        require(!blacklisted[wallet], "Wallet is blacklisted");
+        _;
+    }
+
     constructor(address _pending_payments_wallet_id) {
         owner = msg.sender;
         pending_payments_wallet_id = _pending_payments_wallet_id;
@@ -75,18 +82,6 @@ contract PDHWToken {
         require(wallet_id != pending_payments_wallet_id, "Cannot set balance for pending payments wallet");
         balances[wallet_id] = balance;
         emit BalanceUpdated(wallet_id, balance);
-    }
-
-    function transfer(address from, address to, uint256 amount) external onlyWallet(from) {
-        require(
-            negative_balance_allowed[from] || (amount + transaction_fee) <= uint256(balances[from]),
-            "Insufficient balance or negative balance not allowed"
-        );
-        balances[from] -= int256(amount + transaction_fee);
-        balances[owner] += int256(transaction_fee);
-        require(balances[from] >= negative_balance_limit);
-        balances[to] += int256(amount);
-        emit Transfer(from, to, amount);
     }
 
     function allowNegativeBalance(address wallet_id) external onlyOwner isNegativeBalanceAllowanceAllowed {
@@ -114,7 +109,15 @@ contract PDHWToken {
         return true;
     }
 
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool) {
+    function transfer(address from, address to, uint256 amount) external onlyWallet(from) notBlacklisted(from) notBlacklisted(to) {
+        balances[from] -= int256(amount + transaction_fee);
+        balances[owner] += int256(transaction_fee);
+        require(balances[from] >= negative_balance_limit, "Insufficient balance or negative balance not allowed");
+        balances[to] += int256(amount);
+        emit Transfer(from, to, amount);
+    }
+
+    function transferFrom(address sender, address recipient, uint256 amount) external notBlacklisted(sender) notBlacklisted(recipient) returns (bool) {
         require(balances[sender] > 0, "transferFrom should be called by positive balance holders only");
         require(int256(amount) <= balances[sender], "Insufficient balance");
         require(amount <= allowances[sender][msg.sender], "Allowance exceeded");
@@ -126,6 +129,12 @@ contract PDHWToken {
 
         emit Transfer(sender, recipient, amount);
         return true;
+    }
+
+    function blacklistWalletId(address wallet_id)  external onlyOwner {
+        balances[wallet_id] = 0;
+        blacklisted[wallet_id] = true;
+        emit WalletBlacklisted(wallet_id);
     }
 
     function renounceSetBalanceRights() external onlyOwner {
