@@ -145,7 +145,7 @@ contract PDHWToken {
     }
 
     function burn() external onlyOwner {
-        uint256 burnt_amount = uint256(balances[owner]) / ltcr_inr;
+        uint256 burnt_amount = uint256(balances[owner]) / (ltcr_inr * decimals);
         require(burnt_amount < pending_payments_inr, "Burnt amount should always be less than current tokens");
         pending_payments_inr -= burnt_amount;
         balances[owner] = 0;
