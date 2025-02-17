@@ -1,4 +1,3 @@
-// Semi-auto-generated code: https://chatgpt.com/c/67b29926-32b8-8004-8bd4-eba71198078f
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -25,8 +24,27 @@ contract PDHWToken {
     event BalanceUpdated(address indexed wallet, int256 newBalance);
     event NegativeBalanceAllowed(address indexed wallet);
 
+    bool public is_set_balance_allowed = true;
+    bool public is_set_ltcr_inr_allowed = true;
+    bool public is_negative_balance_allowance_allowed = true;
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+
+    modifier isSetBalanceAllowed() {
+        require(is_set_balance_allowed);
+        _;
+    }
+
+    modifier isSetLtcrInrAllowed() {
+        require(is_set_ltcr_inr_allowed);
+        _;
+    }
+
+    modifier isNegativeBalanceAllowanceAllowed() {
+        require(is_negative_balance_allowance_allowed);
         _;
     }
 
@@ -46,13 +64,13 @@ contract PDHWToken {
         return int128(int256(input));
     }
 
-    function setLtcrInr(uint256 val) external onlyOwner {
+    function setLtcrInr(uint256 val) external onlyOwner isSetLtcrInrAllowed {
         ltcr_inr = val;
         balances[pending_payments_wallet_id] = truncateUint256ToInt128(pending_payments / ltcr_inr * decimals);
         emit LtcrInrUpdated(val);
     }
 
-    function setBalance(address wallet_id, int256 balance) external onlyOwner {
+    function setBalance(address wallet_id, int256 balance) external onlyOwner isSetBalanceAllowed {
         require(wallet_id != pending_payments_wallet_id, "Cannot set balance for pending payments wallet");
         balances[wallet_id] = balance;
         emit BalanceUpdated(wallet_id, balance);
@@ -69,7 +87,7 @@ contract PDHWToken {
         emit Transfer(from, to, amount);
     }
 
-    function allowNegativeBalance(address wallet_id) external onlyOwner {
+    function allowNegativeBalance(address wallet_id) external onlyOwner isNegativeBalanceAllowanceAllowed {
         if (!negative_balance_allowed[wallet_id]) {
             ++num_negative_balance_addresses;
         }
@@ -94,5 +112,17 @@ contract PDHWToken {
 
         emit Transfer(sender, recipient, amount);
         return true;
+    }
+
+    function renounceSetBalanceRights() external onlyOwner {
+        is_set_balance_allowed = false;
+    }
+
+    function renounceSetLtcrInrRights() external onlyOwner {
+        is_set_ltcr_inr_allowed = false;
+    }
+
+    function renounceNegativeBalanceAllowanceRights() external onlyOwner {
+        is_negative_balance_allowance_allowed = false;
     }
 }
