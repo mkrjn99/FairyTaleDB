@@ -14,7 +14,7 @@ map<wallet_id_t, bool> negative_balance_allowed;
 
 __attribute__((only_owner)) void set_ltcr_inr(int256_t val) {
     ltcr_inr = val;
-    balances[0] = pending_payments / ltcr_inr;
+    balances[pending_payments_wallet_id] = pending_payments / ltcr_inr;
 }
 
 __attribute__((only_owner)) void set_balance(wallet_id_t wallet_id, int256_t balance) {

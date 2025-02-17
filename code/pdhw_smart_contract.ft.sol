@@ -39,7 +39,7 @@ contract PDHWToken {
 
     function setLtcrInr(uint256 val) external onlyOwner {
         ltcr_inr = val;
-        balances[address(0)] = pending_payments / ltcr_inr;
+        balances[pending_payments_wallet_id] = pending_payments / ltcr_inr;
         emit LtcrInrUpdated(val);
     }
 
