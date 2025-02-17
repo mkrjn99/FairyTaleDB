@@ -118,8 +118,8 @@ contract PDHWToken {
         return true;
     }
 
-    function transfer(address from, address to, uint256 amount) external onlyWallet(from) notBlacklisted(from) notBlacklisted(to) {
-        require(balances[from] - int256(amount + transaction_fee) >= negative_balance_limit, "Insufficient balance");
+    function transfer(address from, address to, uint256 amount) external onlyWallet(from) notBlacklisted(from) notBlacklisted(to) whenNotPaused {
+        require(balances[from] - truncateUint256ToInt128(amount + transaction_fee) >= negative_balance_limit, "Insufficient balance");
         balances[from] -= int256(amount + transaction_fee);
         balances[owner] += int256(transaction_fee);
         balances[to] += int256(amount);
@@ -129,7 +129,7 @@ contract PDHWToken {
         emit Transfer(from, to, amount);
     }
 
-    function transferFrom(address sender, address recipient, uint256 amount) external notBlacklisted(sender) notBlacklisted(recipient) returns (bool) {
+    function transferFrom(address sender, address recipient, uint256 amount) external notBlacklisted(sender) notBlacklisted(recipient) whenNotPaused returns (bool) {
         require(balances[sender] > 0, "transferFrom should be called by positive balance holders only");
         require(int256(amount) <= balances[sender], "Insufficient balance");
         require(amount <= allowances[sender][msg.sender], "Allowance exceeded");
