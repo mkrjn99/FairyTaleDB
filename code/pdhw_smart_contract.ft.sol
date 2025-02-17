@@ -6,7 +6,7 @@ contract PDHWToken {
     string public name = "PDHWToken";
     string public symbol = "PDHW";
     uint8 public decimals = 6;
-    uint256 public ltcr_inr = 6000000;
+    uint256 public ltcr_inr = 8;
     uint256 public pending_payments = 51 * 1e5;
     uint256 public transaction_fee = 1000000;
 
@@ -15,6 +15,9 @@ contract PDHWToken {
     mapping(address => int256) public balances;
     mapping(address => bool) public negative_balance_allowed;
     mapping(address => mapping(address => uint256)) public allowances;
+
+    uint256 public num_negative_balance_addresses = 0;
+    int256 public negative_balance_limit = - 10000 * 1000000;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -45,7 +48,7 @@ contract PDHWToken {
 
     function setLtcrInr(uint256 val) external onlyOwner {
         ltcr_inr = val;
-        balances[pending_payments_wallet_id] = truncateUint256ToInt128(pending_payments / ltcr_inr);
+        balances[pending_payments_wallet_id] = truncateUint256ToInt128(pending_payments / ltcr_inr * decimals);
         emit LtcrInrUpdated(val);
     }
 
@@ -61,11 +64,15 @@ contract PDHWToken {
             "Insufficient balance or negative balance not allowed"
         );
         balances[from] -= int256(amount + transaction_fee);
+        require(balances[from] >= negative_balance_limit);
         balances[to] += int256(amount);
         emit Transfer(from, to, amount);
     }
 
     function allowNegativeBalance(address wallet_id) external onlyOwner {
+        if (!negative_balance_allowed[wallet_id]) {
+            ++num_negative_balance_addresses;
+        }
         negative_balance_allowed[wallet_id] = true;
         emit NegativeBalanceAllowed(wallet_id);
     }
