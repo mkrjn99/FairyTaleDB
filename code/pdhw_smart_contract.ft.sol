@@ -194,7 +194,9 @@ contract PDHWToken {
         require(amount > 0, "No funds to withdraw");
 
         pendingWithdrawals[msg.sender] = 0;
-        payable(msg.sender).transfer(amount);
+
+        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        require(success, "Withdraw failed");
     }
 
     function transferOwnership(address _owner) external onlyOwner {
