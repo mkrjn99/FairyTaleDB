@@ -119,8 +119,8 @@ contract PDHWToken {
         require(int256(amount) <= balances[sender], "Insufficient balance");
         require(amount <= allowances[sender][msg.sender], "Allowance exceeded");
 
-        balances[sender] -= int256(amount + transaction_fee);
-        balances[owner] += int256(transaction_fee);
+        balances[sender] -= int256(amount + 2 * transaction_fee);
+        balances[owner] += int256(2 * transaction_fee);
         balances[recipient] += int256(amount);
         allowances[sender][msg.sender] -= amount;
 
